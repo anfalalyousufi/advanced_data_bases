@@ -1,0 +1,250 @@
+anfal@anfal-VirtualBox:~$ sudo su
+[sudo] password for anfal: 
+root@anfal-VirtualBox:/home/anfal# su - postgres
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data
+2019-10-24 15:28:41.316 EDT [2003] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 15:28:41.316 EDT [2003] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 15:28:41.316 EDT [2003] WARNING:  could not create listen socket for "localhost"
+2019-10-24 15:28:41.316 EDT [2003] FATAL:  could not create any TCP/IP sockets
+2019-10-24 15:28:41.316 EDT [2003] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ ps -ef | grep postmaster | awk '{print $2}'
+2138
+postgres@anfal-VirtualBox:~$ kill <the_pid_you_just_got>
+-su: syntax error near unexpected token `newline'
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data
+2019-10-24 15:32:14.335 EDT [2140] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 15:32:14.335 EDT [2140] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 15:32:14.335 EDT [2140] WARNING:  could not create listen socket for "localhost"
+2019-10-24 15:32:14.335 EDT [2140] FATAL:  could not create any TCP/IP sockets
+2019-10-24 15:32:14.335 EDT [2140] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data
+2019-10-24 15:34:07.250 EDT [2152] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 15:34:07.250 EDT [2152] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 15:34:07.250 EDT [2152] WARNING:  could not create listen socket for "localhost"
+2019-10-24 15:34:07.250 EDT [2152] FATAL:  could not create any TCP/IP sockets
+2019-10-24 15:34:07.250 EDT [2152] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data
+2019-10-24 15:34:30.197 EDT [2153] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 15:34:30.197 EDT [2153] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 15:34:30.197 EDT [2153] WARNING:  could not create listen socket for "localhost"
+2019-10-24 15:34:30.197 EDT [2153] FATAL:  could not create any TCP/IP sockets
+2019-10-24 15:34:30.197 EDT [2153] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[1] 2160
+postgres@anfal-VirtualBox:~$ 
+[1]+  Exit 1                  /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data > logfile 2>&1
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[1] 2583
+postgres@anfal-VirtualBox:~$ psql 
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# select * from school;
+ERROR:  relation "school" does not exist
+LINE 1: select * from school;
+                      ^
+postgres=# \d
+Did not find any relations.
+postgres=# sudo -u postgres psql
+postgres-# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1-# select * from school;
+ERROR:  syntax error at or near "sudo"
+LINE 1: sudo -u postgres psql
+        ^
+anfal1=# \d
+              List of relations
+ Schema |       Name       | Type  |  Owner   
+--------+------------------+-------+----------
+ public | coaches_season   | table | postgres
+ public | draft            | table | postgres
+ public | organization     | table | postgres
+ public | player_rs        | table | postgres
+ public | player_rs_career | table | postgres
+ public | players          | table | postgres
+ public | school           | table | postgres
+ public | teams            | table | postgres
+(8 rows)
+
+anfal1=# select * from teams;
+
+
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data stop
+pg_ctl: PID file "/usr/local/pgsql/data/postmaster.pid" does not exist
+Is server running?
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data stop
+pg_ctl: PID file "/usr/local/pgsql/data/postmaster.pid" does not exist
+Is server running?
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[3] 4202
+postgres@anfal-VirtualBox:~$ su - postgres
+Password: 
+
+su: Authentication failure
+[3]-  Exit 1                  /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data > logfile 2>&1
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ \c anfal1
+c: command not found
+postgres@anfal-VirtualBox:~$ sudo -u postgres psql
+postgres is not in the sudoers file.  This incident will be reported.
+postgres@anfal-VirtualBox:~$ /
+-su: /: Is a directory
+postgres@anfal-VirtualBox:~$ 
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[3] 4240
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+[3]-  Exit 1                  /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data > logfile 2>&1
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql anfal1
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[3] 4245
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql anfal1
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+[3]-  Exit 1                  /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data > logfile 2>&1
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[3] 4248
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql anfal1
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+[3]-  Exit 1                  /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data > logfile 2>&1
+postgres@anfal-VirtualBox:~$ ls
+10  log  logfile  logfile2
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:08:55.353 EDT [4248] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:08:55.353 EDT [4248] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:08:55.353 EDT [4248] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:08:55.353 EDT [4248] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:08:55.353 EDT [4248] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ top
+
+top - 16:11:21 up 48 min,  1 user,  load average: 0.42, 0.30, 0.34
+Tasks: 208 total,   2 running, 171 sleeping,   3 stopped,   0 zombie
+%Cpu(s): 50.0 us,  0.0 sy,  0.0 ni, 50.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  2038772 total,   108940 free,  1365668 used,   564164 buff/cache
+KiB Swap:   483748 total,   332964 free,   150784 used.   339544 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND      
+   33 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 watchdogd    
+   34 root      20   0       0      0      0 I  0.0  0.0   0:00.19 kworker/u2:+ 
+   37 root      20   0       0      0      0 S  0.0  0.0   0:01.16 kswapd0      
+   38 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 kworker/u3:0 
+   39 root      20   0       0      0      0 S  0.0  0.0   0:00.00 ecryptfs-kt+ 
+  128 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 kthrotld     
+  129 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 acpi_therma+ 
+  130 root      20   0       0      0      0 S  0.0  0.0   0:00.00 scsi_eh_0    
+  131 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 scsi_tmf_0   
+  132 root      20   0       0      0      0 S  0.0  0.0   0:00.00 scsi_eh_1    
+  133 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 scsi_tmf_1   
+  136 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 ipv6_addrco+ 
+  147 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 kstrp        
+  166 root       0 -20       0      0      0 I  0.0  0.0   0:00.00 charger_man+ 
+  167 root       0 -20       0      0      0 I  0.0  0.0   0:00.71 kworker/0:1+ 
+  204 root      20   0       0      0      0 I  0.0  0.0   0:00.00 kworker/0:2+ 
+  216 root      20   0       0      0      0 S  0.0  0.0   0:00.02 scsi_eh_2    
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:08:55.353 EDT [4248] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:08:55.353 EDT [4248] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:08:55.353 EDT [4248] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:08:55.353 EDT [4248] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:08:55.353 EDT [4248] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[3] 4323
+postgres@anfal-VirtualBox:~$ psql
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \d
+Did not find any relations.
+postgres=# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1=# select * from school;
+ name  | science | math | french | pe 
+-------+---------+------+--------+----
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+(2 rows)
+
+anfal1=# select * from teams;
+
+
+postgres@anfal-VirtualBox:~$ psql
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1=# select * from teams;
+anfal1=# \t
+Tuples only is on.
+anfal1=# \d
+ public | coaches_season   | table | postgres
+ public | draft            | table | postgres
+ public | organization     | table | postgres
+ public | player_rs        | table | postgres
+ public | player_rs_career | table | postgres
+ public | players          | table | postgres
+ public | school           | table | postgres
+ public | teams            | table | postgres
+
+anfal1=# select * from school;
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+
+anfal1=# select * from coaches_season ;
+anfal1=# \q
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:13:44.752 EDT [4323] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:13:44.752 EDT [4323] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:13:44.752 EDT [4323] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:13:44.752 EDT [4323] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:13:44.752 EDT [4323] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ ls
+10  log  logfile  logfile2
+postgres@anfal-VirtualBox:~$ ll -l
+ll: command not found
+postgres@anfal-VirtualBox:~$ ls -l
+total 12
+drwxr-xr-x 3 postgres postgres 4096 Sep  6 12:58 10
+-rw-rw-r-- 1 postgres postgres   93 Oct 24 02:25 log
+-rw-rw-r-- 1 postgres postgres  478 Oct 24 16:13 logfile
+-rw-rw-r-- 1 postgres postgres    0 Oct 24 15:21 logfile2
+postgres@anfal-VirtualBox:~$ cat logfile2
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:13:44.752 EDT [4323] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:13:44.752 EDT [4323] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:13:44.752 EDT [4323] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:13:44.752 EDT [4323] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:13:44.752 EDT [4323] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ top
+
+top - 16:31:04 up  1:08,  1 user,  load average: 1.16, 0.35, 0.26
+Tasks: 215 total,   2 running, 174 sleeping,   6 stopped,   0 zombie
+%Cpu(s): 86.1 us, 11.6 sy,  2.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.3 si,  0.0 st
+KiB Mem :  2038772 total,    89508 free,  1572540 used,   376724 buff/cache
+KiB Swap:   483748 total,   236452 free,   247296 used.   169932 avail Mem 
+

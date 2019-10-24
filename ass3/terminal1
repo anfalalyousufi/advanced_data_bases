@@ -1,0 +1,229 @@
+sudo su
+
+enter password
+
+root@anfal-virtualboc:/home/anfal# su - postgres
+
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+
+postgres@anfal-VirtualBox:~$ psql 
+
+postgres-# \c anfal1
+
+anfal1=# \d
+
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/psql
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+
+postgres@anfal-VirtualBox:~$ ls
+10  log  logfile  logfile2
+
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:08:55.353 EDT [4248] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:08:55.353 EDT [4248] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:08:55.353 EDT [4248] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:08:55.353 EDT [4248] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:08:55.353 EDT [4248] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ top
+
+
+
+----
+postgres@anfal-VirtualBox:~$ psql
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \d
+Did not find any relations.
+postgres=# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1=# select * from school;
+ name  | science | math | french | pe 
+-------+---------+------+--------+----
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+(2 rows)
+
+anfal1=# select * from teams;
+
+
+postgres@anfal-VirtualBox:~$ psql
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1=# select * from teams;
+anfal1=# \t
+Tuples only is on.
+anfal1=# \d
+ public | coaches_season   | table | postgres
+ public | draft            | table | postgres
+ public | organization     | table | postgres
+ public | player_rs        | table | postgres
+ public | player_rs_career | table | postgres
+ public | players          | table | postgres
+ public | school           | table | postgres
+ public | teams            | table | postgres
+
+anfal1=# select * from school;
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+
+anfal1=# select * from coaches_season ;
+anfal1=# \q
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:13:44.752 EDT [4323] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:13:44.752 EDT [4323] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:13:44.752 EDT [4323] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:13:44.752 EDT [4323] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:13:44.752 EDT [4323] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ ls
+10  log  logfile  logfile2
+postgres@anfal-VirtualBox:~$ ll -l
+ll: command not found
+postgres@anfal-VirtualBox:~$ ls -l
+total 12
+drwxr-xr-x 3 postgres postgres 4096 Sep  6 12:58 10
+-rw-rw-r-- 1 postgres postgres   93 Oct 24 02:25 log
+-rw-rw-r-- 1 postgres postgres  478 Oct 24 16:13 logfile
+-rw-rw-r-- 1 postgres postgres    0 Oct 24 15:21 logfile2
+postgres@anfal-VirtualBox:~$ cat logfile2
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-24 16:13:44.752 EDT [4323] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2019-10-24 16:13:44.752 EDT [4323] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2019-10-24 16:13:44.752 EDT [4323] WARNING:  could not create listen socket for "localhost"
+2019-10-24 16:13:44.752 EDT [4323] FATAL:  could not create any TCP/IP sockets
+2019-10-24 16:13:44.752 EDT [4323] LOG:  database system is shut down
+postgres@anfal-VirtualBox:~$ top
+
+top - 16:32:56 up  1:10,  1 user,  load average: 1.21, 0.79, 0.45
+Tasks: 218 total,   1 running, 178 sleeping,   6 stopped,   0 zombie
+%Cpu(s):  8.3 us,  1.0 sy,  0.0 ni, 81.7 id,  9.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  2038772 total,    94224 free,  1542312 used,   402236 buff/cache
+KiB Swap:   483748 total,   155300 free,   328448 used.   206412 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND                                                                                                                                  
+ 1221 anfal     20   0  471316   8776   7952 S  0.0  0.4   0:00.04 gsd-sharing                                                                                                                              
+ 1236 anfal     20   0  504684  13164  10700 S  0.0  0.6   0:00.19 gsd-xsettings                                                                                                                            
+ 1242 anfal     20   0  466452   5708   5496 S  0.0  0.3   0:00.03 gsd-smartcard                                                                                                                            
+ 1245 anfal     20   0  343096   7320   7004 S  0.0  0.4   0:00.02 gsd-sound                                                                                                                                
+ 1248 anfal     20   0  440728  11604  10760 S  0.0  0.6   0:00.20 gsd-wacom                                                                                                                                
+ 1256 anfal     20   0  296644   6740   6428 S  0.0  0.3   0:00.01 gsd-a11y-settin                                                                                                                          
+ 1257 anfal     20   0  355876  13696  11180 S  0.0  0.7   0:00.17 gsd-clipboard                                                                                                                            
+ 1260 anfal     20   0  678236  13328  11148 S  0.0  0.7   0:00.39 gsd-color                                                                                                                                
+ 1265 anfal     20   0  476580   9100   8796 S  0.0  0.4   0:00.02 gsd-datetime                                                                                                                             
+ 1267 anfal     20   0  374692   7004   6500 S  0.0  0.3   0:00.10 gsd-housekeepin                                                                                                                          
+ 1268 anfal     20   0  516700  11888  10876 S  0.0  0.6   0:00.17 gsd-keyboard                                                                                                                             
+ 1272 anfal     20   0  803056  13096  10392 S  0.0  0.6   0:00.30 gsd-media-keys                                                                                                                           
+ 1273 anfal     20   0  296656   6620   6312 S  0.0  0.3   0:00.01 gsd-mouse                                                                                                                                
+ 1291 anfal     20   0  508760   7912   7444 S  0.0  0.4   0:00.02 gsd-printer                                                                                                                              
+ 1316 colord    20   0  339592   8304   7640 S  0.0  0.4   0:00.14 colord                                                                                                                                   
+ 1324 anfal     20   0  271932   4680   4568 S  0.0  0.2   0:00.01 gsd-disk-utilit                                                                                                                          
+ 1325 anfal     20   0 1038988  27568  23252 S  0.0  1.4   0:01.31 nautilus-deskto                                                                                                                          
+ 1349 anfal     20   0  384132   8072   7076 S  0.0  0.4   0:00.09 gvfsd-trash                                                                                                                              
+ 1360 anfal     20   0  894332  12568  11768 S  0.0  0.6   0:00.54 evolution-calen                                                                                                                          
+ 1374 anfal     20   0  954524  11796  10516 S  0.0  0.6   0:00.55 evolution-calen                                                                                                                          
+ 1391 anfal     20   0  734976  10448  10152 S  0.0  0.5   0:00.05 evolution-addre                                                                                                                          
+ 1399 anfal     20   0  892904   9972   9844 S  0.0  0.5   0:00.05 evolution-addre                                                                                                                          
+ 1407 anfal     20   0  220928   6616   6356 S  0.0  0.3   0:01.53 ibus-engine-sim                                                                                                                          
+ 1429 anfal     20   0  204528   4876   4524 S  0.0  0.2   0:00.01 gvfsd-metadata                                                                                                                           
+ 1467 anfal     20   0  906476 105884  21084 S  0.0  5.2   0:03.57 sublime_text                                                                                                                             
+ 1475 anfal     20   0 3511020 259548  96100 S  0.0 12.7   0:49.58 firefox                                                                                                                                  
+ 1486 anfal     20   0  280540  16560   2992 S  0.0  0.8   0:00.93 plugin_host                                                                                                                              
+ 1568 anfal     20   0 2634536  98188  54856 S  0.0  4.8   0:04.40 Web Content                                                                                                                              
+ 1641 anfal     20   0 2580852  54408  29664 S  0.0  2.7   0:01.26 WebExtensions                                                                                                                            
+ 1758 anfal     20   0  724292  20980  15196 S  0.0  1.0   0:00.32 update-notifier                                                                                                                          
+ 1760 anfal     20   0 1079228 139384  19088 S  0.0  6.8   0:05.65 gnome-software                                                                                                                           
+ 1776 anfal     20   0 2853376  85332  35456 S  0.0  4.2   0:24.77 Web Content                                                                                                                              
+ 1816 root      20   0  563328  17480   8676 S  0.0  0.9   0:00.22 fwupd                                                                                                                                    
+ 1879 anfal     20   0  863460  15708   9920 S  0.0  0.8   0:00.08 deja-dup-monito                                                                                                                          
+ 1960 anfal     20   0   29548   3100   1840 S  0.0  0.2   0:00.03 bash                                                                                                                                     
+ 1970 root      20   0   72952   2888   2264 S  0.0  0.1   0:00.00 sudo                                                                                                                                     
+ 1971 root      20   0   72244   2628   2160 S  0.0  0.1   0:00.00 su                                                                                                                                       
+ 1972 root      20   0   76768   4556   3276 S  0.0  0.2   0:00.03 systemd                                                                                                                                  
+ 1973 root      20   0  193720   1740      0 S  0.0  0.1   0:00.00 (sd-pam)                                                                                                                                 
+ 1984 root      20   0   28576   2188   1840 S  0.0  0.1   0:00.00 bash                                                                                                                                     
+ 1994 root      20   0   72244   2632   2160 S  0.0  0.1   0:00.00 su                                                                                                                                       
+[5]+  Stopped                 top
+
+
+
+
+
+------------
+anfal@anfal-VirtualBox:~$ make
+make: *** No targets specified and no makefile found.  Stop.
+anfal@anfal-VirtualBox:~$ cd Dowloads
+bash: cd: Dowloads: No such file or directory
+anfal@anfal-VirtualBox:~$ cd Downloads
+anfal@anfal-VirtualBox:~/Downloads$ ls
+ BufferReplacement-in-PostgreSQL-master.zip   DataGrip-2018.1.4
+ Cloudpath-x64                                datagrip-2018.1.4.tar.gz
+'Cloudpath-x64(1).tar.bz2'                    datagrip-2019.2.5
+ Cloudpath-x64.tar.bz2                        datagrip-2019.2.5.tar.gz
+ course_files_export                          postgresql-10.5
+'course_files_export(1).zip'                  postgresql-10.5.tar
+ course_files_export.zip
+anfal@anfal-VirtualBox:~/Downloads$ cd postgresql-10.5
+anfal@anfal-VirtualBox:~/Downloads/postgresql-10.5$ 
+anfal@anfal-VirtualBox:~/Downloads/postgresql-10.5$ ls
+aclocal.m4  config.log     configure.in  doc             HISTORY   README
+build_dir   config.status  contrib       GNUmakefile     INSTALL   src
+config      configure      COPYRIGHT     GNUmakefile.in  Makefile
+anfal@anfal-VirtualBox:~/Downloads/postgresql-10.5$ cd src
+anfal@anfal-VirtualBox:~/Downloads/postgresql-10.5/src$ make
+
+
+----
+anfal@anfal-VirtualBox:~$ cd Dowloads
+bash: cd: Dowloads: No such file or directory
+anfal@anfal-VirtualBox:~$ ls
+Desktop    Downloads         logfile  Pictures  snap       Videos
+Documents  examples.desktop  Music    Public    Templates
+anfal@anfal-VirtualBox:~$ cd /usr
+anfal@anfal-VirtualBox:/usr$ cd /local
+bash: cd: /local: No such file or directory
+anfal@anfal-VirtualBox:/usr$ cd 
+anfal@anfal-VirtualBox:~$ cd /usr/local/pgsql
+anfal@anfal-VirtualBox:/usr/local/pgsql$ ls
+bin  data  include  lib  share
+anfal@anfal-VirtualBox:/usr/local/pgsql$ cd data
+bash: cd: data: Permission denied
+anfal@anfal-VirtualBox:/usr/local/pgsql$ cd 
+anfal@anfal-VirtualBox:~$ cd /usr/local/pgsql/data
+bash: cd: /usr/local/pgsql/data: Permission denied
+anfal@anfal-VirtualBox:~$ su sudo
+No passwd entry for user 'sudo'
+anfal@anfal-VirtualBox:~$ su - postgres
+Password: 
+su: Authentication failure
+anfal@anfal-VirtualBox:~$ sudo su
+[sudo] password for anfal: 
+root@anfal-VirtualBox:/home/anfal# su -postgres
+su: invalid option -- 'o'
+Usage: su [options] [LOGIN]
+
+Options:
+  -c, --command COMMAND         pass COMMAND to the invoked shell
+  -h, --help                    display this help message and exit
+  -, -l, --login                make the shell a login shell
+  -m, -p,
+  --preserve-environment        do not reset environment variables, and
+                                keep the same shell
+  -s, --shell SHELL             use SHELL instead of the default in passwd
+
+root@anfal-VirtualBox:/home/anfal# su - postgres
+postgres@anfal-VirtualBox:~$ cd /usr/local/pgsql/data
+postgres@anfal-VirtualBox:/usr/local/pgsql/data$ ls
+base	      pg_ident.conf  pg_serial	   pg_tblspc	postgresql.auto.conf
+global	      pg_logical     pg_snapshots  pg_twophase	postgresql.conf
+pg_commit_ts  pg_multixact   pg_stat	   PG_VERSION
+pg_dynshmem   pg_notify      pg_stat_tmp   pg_wal
+pg_hba.conf   pg_replslot    pg_subtrans   pg_xact
+postgres@anfal-VirtualBox:/usr/local/pgsql/data$ 
+
+
+

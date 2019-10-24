@@ -1,0 +1,16 @@
+project 3
+
+make [to run the code]
+
+
+sudo su
+su - postgres
+/usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data
+
+/usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[1] 2160
+
+
+//stop progres server before you restart it. to shutdown type:
+/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data stop
+

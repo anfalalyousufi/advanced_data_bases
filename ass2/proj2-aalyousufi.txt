@@ -1,0 +1,617 @@
+drop table teams;
+drop table coaches_season;
+drop table draft;
+drop table players;
+drop table player_rs_career;
+drop table player_rs;
+
+
+create table teams (tid varchar(30), location varchar(30), name varchar(30), league varchar(30), primary key (tid, league));
+
+create table coaches_season (cid varchar(30), year int, yr_order int,
+firstname varchar(30), lastname varchar(30), season_win int, season_loss int, playoff_win int, playoff_loss int, tid varchar(30), primary key (cid, year, yr_order));
+
+create table draft (draft_year int, draft_round int, selection int, tid varchar(30), firstname varchar(30), lastname varchar(30), ilkid  varchar(30), draft_from varchar(100), league varchar(30));
+
+create table players (ilkid varchar(30), firstname varchar(30), lastname varchar(30), position varchar(1), first_season int, last_season int, h_feet int, h_inches real, weight real, college varchar(100), birthday varchar(30), primary key (ilkid));
+
+create table player_rs_career (ilkid varchar(30), firstname varchar(30), lastname varchar(30), league varchar(10), gp int, minutes int, pts int, dreb int, oreb int, reb int, asts int, stl int, blk int, turnover int, pf int, fga int, fgm int, fta int, ftm int, tpa int, tpm int);
+
+create table player_rs (ilkid varchar(30), year int, firstname varchar(30), lastname varchar(30), tid varchar(30), league varchar(10), gp int, minutes int, pts int, dreb int, oreb int, reb int, asts int, stl int, blk int, turnover int, pf int, fga int, fgm int, fta int, ftm int, tpa int, tpm int, primary key(ilkid, year, tid));
+
+
+-- Put your SQL statement under the following lines:
+
+-- 0. Under psql, load all the above tables with data obtained from the corresponding txt file using the 'copy' command like this:
+copy teams from '/home/anfal/Downloads/course_files_export/Proj2/teams.txt' with delimiter ',';
+copy coaches_season from '/home/anfal/Downloads/course_files_export/Proj2/coaches_season.txt' with delimiter ',';
+copy players from '/home/anfal/Downloads/course_files_export/Proj2/players.txt' with delimiter ',';
+copy player_rs from '/home/anfal/Downloads/course_files_export/Proj2/player_rs.txt' with delimiter ',';
+copy player_rs_career from '/home/anfal/Downloads/course_files_export/Proj2/player_rs_career.txt' with delimiter ',';
+copy draft from '/home/anfal/Downloads/course_files_export/Proj2/draft.txt' with delimiter ',';
+
+
+/*1.Find all the players who played in a Denver team but never in a Boston team. List their first names followed by their last names.*/
+
+
+SELECT DISTINCT firstname, lastname
+FROM player_rs
+WHERE ilkid IN (SELECT player_rs.ilkid
+FROM teams, player_rs
+WHERE teams.tid = player_rs.tid AND teams.location ='Denver' 
+EXCEPT
+SELECT player_rs.ilkid
+FROM teams, player_rs
+WHERE teams.tid = player_rs.tid AND teams.location = 'Boston');
+
+
+/**********output
+ firstname |   lastname    
+-----------+---------------
+ Rob       | Williams
+ Warren    | Jabali
+ Devin     | Brown
+ Wayne     | Englestad
+ Dwight    | Waller
+ Rogerw    | Brown
+ Nick      | Vanexel
+ Zendon    | Hamilton
+ Johnny    | Newman
+ Ron       | Horn
+ Jan       | Vanbredakolff
+ Ervin     | Johnson
+ Frank     | Card
+ Brian     | Taylor
+ Greg      | Buckner
+ David     | Greenwood
+ Spencer   | Haywood
+ Chris     | Andersen
+ Carmelo   | Anthony
+ Willie    | Rogers
+ Anthony   | Cook
+ Calvin    | Natt
+ Dan       | Hester
+ Dave      | Robisch
+ Rb        | Lynam
+ Bob       | Brown
+ Tom       | Workman
+ Terry     | Davis
+ Kenny     | Smith
+ Monty     | Williams
+ Greg      | Grant
+ John      | Trapp
+ Bill      | Hanzlik
+ Floyd     | Volker
+ Wayne     | Hightower
+ Glen      | Gondrezick
+ Junior    | Harrington
+ Lorinza   | Harrington
+ Marv      | Roberts
+ Ken       | Wilburn
+ Vincent   | Yarbrough
+ Mike      | Green
+ Robert    | Smith
+ Jon       | Barry
+ Jeffrey   | Crompton
+ Kelly     | Mccarty
+ Anthony   | Goldwire
+ Mo        | Martin
+ Wayne     | Chapman
+ Kenny     | Higgs
+ Jack      | Toomay
+ Michael   | Doleac
+ Cedrick   | Hordges
+ Antonio   | McDyess
+ Jim       | Price
+ Jim       | Farmer
+ Laphonso  | Ellis
+ Greg      | Wittman
+ Mark      | Pope
+ Darrell   | Walker
+ Don       | Sidle
+ Jeff      | McInnis
+ Kenny     | Satterfield
+ Roy       | Marble
+ Scott     | Hastings
+ Bobby     | Jones
+ Eldridge  | Recasner
+ Willie    | Long
+ Garth     | Joseph
+ Marcus    | Liberty
+ Tim       | Kempton
+ Isaiah    | Rider
+ Winston   | Garland
+ Antonio   | Mcdyess
+ Cliff     | Anderson
+ Kenyon    | Martin
+ Donnell   | Harvey
+ Mike      | Higgins
+ Grant     | Simmons
+ Jeff      | Congdon
+ Roger     | Brown
+ Eric      | Murdock
+ Gary      | Plummer
+ Orlando   | Woolridge
+ Jeff      | Trepagnier
+ Bo        | Ellis
+ Tom       | Hammonds
+ Gary      | Garland
+ Keith     | Edmonson
+ Richard   | Anderson
+ Kim       | Hughes
+ Bob       | Wilkerson
+ Vincent   | Askew
+ Jimmy     | Darden
+ Predrag   | Savovic
+ Pat       | Mcfarland
+ Al        | Guokas
+ Jay       | Vincent
+ Marcus    | Camby
+ Gus       | Gerard
+ Elston    | Turner
+ Charley   | Parks
+ Mark      | Macon
+ Melvin    | Booker
+ Sarunas   | Marciulionis
+ Tom       | Bowens
+ Bill      | Mcgill
+ Scott     | Williams
+ Loren     | Meyer
+ Chuck     | Gardner
+ Aaron     | Williams
+ Tim       | Hardaway
+ Willie    | Murrell
+ Tracy     | Murray
+ Don       | Maclean
+ Kiki      | Vandeweghe
+ Ralph     | Simpson
+ Michael   | Brooks
+ Mengke    | Bateer
+ Tim       | Legler
+ Corey     | Gaines
+ Lafayette | Lever
+ Mark      | Randall
+ Marvin    | Webster
+ Lonnie    | Wright
+ Nikoloz   | Tskitishvili
+ Dale      | Ellis
+ Tyson     | Wheeler
+ Anthony   | Mason
+ Nick      | Van Exel
+ Bison     | Dele
+ Jerome    | Lane
+ Kiwane    | Garris
+ Jacky     | Dorsey
+ Ron       | Valentine
+ Maybyner  | Hilario
+ George    | Irvine
+ Matt      | Fish
+ Mike      | Evans
+ Rodney    | White
+ Andre     | Moore
+ Jamesearl | Ray
+ Tariq     | Abdul-wahad
+ Bill      | Herman
+ Ryan      | Bowen
+ Darwin    | Cook
+ Ed        | Bartels
+ Robert    | Pack
+ Kenny     | Sailors
+ Ricky     | Pierce
+ Elmore    | Spencer
+ Arvid     | Kramer
+ Kevin     | Brooks
+ Jimmy     | King
+ Darvin    | Ham
+ Carl      | Nicks
+ George    | Mcginnis
+ Steve     | Wilson
+ John      | Roche
+ Avery     | Johnson
+ Tom       | Hoover
+ Earl      | Dodd
+ Mark      | Jackson
+ Brooks    | Thompson
+ Jawann    | Oldham
+ Cadillac  | Anderson
+ Claude    | Terry
+ Dillard   | Crocker
+ Carl      | Herrera
+ Bryon     | Russell
+ Nene      | Hilario
+ John      | Crotty
+ Roland    | Taylor
+ Eduardo   | Najera
+ Pries     | Lauderdale
+ Mark      | Alarie
+ Jack      | Cotton
+ Bobby     | Jackson
+ Pete      | Williams
+ George    | Zidek
+ Larry     | Cannon
+ Julius    | Keye
+ Rich      | Kelley
+ Chris     | Gatling
+ Jimmy     | Foster
+ Cory      | Alexander
+ Andre     | Miller
+ Fatty     | Taylor
+ Dikembe   | Mutombo
+ Danny     | Schayes
+ Alex      | English
+ Voshon    | Lenard
+ Tom       | Lagarde
+ Steve     | Scheffler
+ Willie    | White
+ Michael   | Adams
+ John      | Morrison
+ Mack      | Calvin
+ Mark      | Strickland
+ Ted       | Mcclain
+ Wesley    | Person
+ David     | Pope
+ Byron     | Beck
+ Keon      | Clark
+ Blair     | Rasmussen
+ Don       | Washington
+ Richie    | Moore
+ Cliff     | Levingston
+ Mahmo     | Abdul-rauf
+ Bob       | Royer
+ Phil      | Hicks
+ Craig     | Neal
+ Joe       | Kopicki
+ Dave      | Bustion
+ Art       | Becker
+ Harold    | Ellis
+ Joebarry  | Carroll
+ Rastko    | Cvetkovic
+ Jeff      | Mcinnis
+ Eric      | Washington
+ Ben       | Warley
+ Terry     | Mills
+ Otis      | Smith
+ Elmer     | Bennett
+ Walter    | Davis
+ Julian    | Hammond
+ Kevin     | Willis
+ Johnny    | Taylor
+ Jalen     | Rose
+ Larry     | Jones
+ Chris     | Whitney
+ Dan       | Mcclintock
+ George    | Mccloud
+ Robert    | Werdann
+ Darnell   | Hillman
+ Dean      | Garrett
+ Dwight    | Anderson
+ T.r.      | Dunn
+ Juwan     | Howard
+ Chuck     | Williams
+ Eddie     | Hughes
+ Shawnelle | Scott
+ Dermarr   | Johnson
+ Anthony   | Roberts
+ Duane     | Klueh
+ Howard    | Carter
+ John      | Kuester
+ Larry     | Brown
+ Tariq     | Abdul-Wahad
+ Francisco | Elson
+ Jim       | Bradley
+ Jim       | Browne
+ Monte     | Towe
+ Kenny     | Dennard
+ Adam      | Harrington
+ George    | Johnson
+ DerMarr   | Johnson
+ David     | Thompson
+ Lasalle   | Thompson
+ Floyd     | Theard
+ James     | Posey
+ Randy     | Woods
+ Billy     | Mckinney
+ David     | Burns
+ Reggie    | Slater
+ Willie    | Wise
+ Walt      | Piatkowski
+ Wayne     | Cooper
+ Al        | Smith
+ Adonis    | Jordan
+ Dan       | Issel
+ Darnell   | Mee
+ Jake      | Carter
+ Brad      | Wright
+ Earl      | Boykins
+ Luis      | Flores
+ Reggie    | Williams
+(277 rows)
+**************************end/
+
+
+
+/*2.Find the players who only played between years 1990 to 1991, order the results by (last_name, first_name); */
+
+SELECT firstname, lastname
+FROM players
+WHERE (players.first_season=1990 OR players.first_season=1991) AND (players.last_season=1990 OR players.last_season=1991)
+ORDER BY lastname, firstname;
+
+/**another way**/
+SELECT p.firstname, p.lastname
+FROM players p
+WHERE p.first_season>=1990 AND p.last_season <=1991
+ORDER BY p.lastname, p.firstname;
+
+/********output 
+ firstname | lastname  
+-----------+-----------
+ Milos     | Babic
+ Cedric    | Ball
+ Myron     | Brown
+ Demetrius | Calip
+ Rick      | Calloway
+ Richard   | Coffey
+ Tom       | Copa
+ Patrick   | Eddie
+ A.j.      | English
+ Dan       | Godfread
+ Jim       | Grandholm
+ Cedric    | Hunter
+ Les       | Jepsen
+ Kurk      | Lee
+ Ian       | Lockhart
+ Tharon    | Mayes
+ Rodney    | Monroe
+ Chris     | Munk
+ Keith     | Owens
+ Charles   | Thomas
+ Irving    | Thomas
+ Stephen   | Thompson
+ John      | Turner
+ Joao      | Vianna
+ A.j.      | Wydner
+(25 rows)
+
+************************end/
+
+/*3.For each college, print the college name and average number of drafts (per season) they sent to NBA. However, only report those colleges that sent drafts in at least 3 seasons. */
+
+
+/*4.Find the coach(es) (firstname and lastname) who have coached the maximum number of teams between the year 1985 to 1990; */
+
+SELECT cs1.firstname, cs1.lastname
+FROM coaches_season cs1
+WHERE cs1.year >= 1985 AND cs1.year<=1990
+GROUP BY cs1.firstname, cs1.lastname
+HAVING COUNT (cs1.tid) >= ALL (SELECT COUNT (cs2.tid)
+				FROM coaches_season cs2
+				WHERE cs2.year >= 1985 AND cs2.year <= 1990
+				GROUP BY cs2.firstname, cs2.lastname, cs2.cid);
+/**********************output
+
+ firstname | lastname 
+-----------+----------
+ John      | MacLeod
+ Chuck     | Daly
+(2 rows)
+r**************************end/
+
+/*5.List the top 5 shortest players. List their last and first names and their heights in centimeters. (Hint: use keywords ORDER BY and LIMIT) */
+
+SELECT firstname,lastname 
+FROM (SELECT firstname,lastname,(h_feet*30.48)+(h_inches*2.54) as ht 
+FROM players ORDER BY ht) name LIMIT 5;
+
+/**************output
+ firstname | lastname 
+-----------+----------
+ Muggsy    | Bogues
+ Earl      | Boykins
+ Sid       | Catlett
+ Spud      | Webb
+ Mel       | Hirsch
+(5 rows)
+************************end/
+
+/*6.Which college sent the second largest number of drafts to NBA? List the college name and the number of drafts.*/
+SELECT d.draft_from, COUNT (DISTINCT d.ilkid)
+FROM draft d
+GROUP BY d.draft_from ORDER BY COUNT (DISTINCT d.ilkid) DESC LIMIT 1 OFFSET 1;
+
+/****************output
+ draft_from | count 
+------------+-------
+ Kentucky   |    59
+(1 row)
+************************end/
+
+/*7.Who coached in all leagues? Use the method introduced in class with 'NOT EXISTS -- EXCEPT -- ...";*/
+SELECT DISTINCT coaches_season.firstname, coaches_season.lastname
+FROM coaches_season
+WHERE NOT EXISTS (( SELECT COUNT (DISTINCT teams.league)
+				FROM teams)
+				EXCEPT(SELECT COUNT (DISTINCT t1.league)
+					FROM coaches_season cs1, teams t1
+					WHERE cs1.tid = t1.tid AND coaches_season.cid = cs1.cid
+					GROUP BY cs1.cid));
+
+/**************************output
+ firstname |  lastname   
+-----------+-------------
+ Alex      | Hannum
+ Andrew    | Levane
+ Andy      | Phillip
+ Bernie    | Bickerstaff
+ Bill      | Hanzlik
+ Bob       | Bass
+ Bob       | Hill
+ Bob       | Leonard
+ Bob       | Pettit
+ Bob       | Weiss
+ Cotton    | Fitzsimmons
+ Dan       | Issel
+ Dick      | Motta
+ Dick      | Versace
+ Donnie    | Walsh
+ Doug      | Moe
+ Ed        | Macauley
+ Gene      | Littles
+ George    | Irvine
+ Gregg     | Popovich
+ Harry     | Gallatin
+ Isiah     | Thomas
+ Jack      | McKinney
+ Jack      | Ramsay
+ Jeff      | Bzdelik
+ Jerry     | Tarkanian
+ John      | Lucas
+ Kevin     | Loughery
+ Larry     | Bird
+ Larry     | Brown
+ Mel       | Daniels
+ Mike      | D'Antoni
+ Mike      | Evans
+ Morris    | McHone
+ Paul      | Seymour
+ Paul      | Westhead
+ Red       | Holzman
+ Rex       | Hughes
+ Richie    | Guerin
+ Rick      | Carlisle
+ Slater    | Martin
+ Stan      | Albeck
+(42 rows)
+*******************************end/
+/*8.Same as in query 7, but use a different approach;*/
+
+SELECT coaches_season.firstname, coaches_season.lastname
+FROM coaches_season, teams
+WHERE coaches_season.tid = teams.tid
+GROUP BY coaches_season.firstname, coaches_season.lastname
+HAVING COUNT (DISTINCT teams.league) IN (SELECT COUNT(DISTINCT t1.league)
+					FROM teams t1);
+
+/*********************output
+ firstname |  lastname   
+-----------+-------------
+ Alex      | Hannum
+ Andrew    | Levane
+ Andy      | Phillip
+ Bernie    | Bickerstaff
+ Bill      | Hanzlik
+ Bob       | Bass
+ Bob       | Hill
+ Bob       | Leonard
+ Bob       | Pettit
+ Bob       | Weiss
+ Cotton    | Fitzsimmons
+ Dan       | Issel
+ Dick      | Motta
+ Dick      | Versace
+ Donnie    | Walsh
+ Doug      | Moe
+ Ed        | Macauley
+ Gene      | Littles
+ George    | Irvine
+ Gregg     | Popovich
+ Harry     | Gallatin
+ Isiah     | Thomas
+ Jack      | McKinney
+ Jack      | Ramsay
+ Jeff      | Bzdelik
+ Jerry     | Tarkanian
+ John      | Lucas
+ Kevin     | Loughery
+ Larry     | Bird
+ Larry     | Brown
+ Mel       | Daniels
+ Mike      | D'Antoni
+ Mike      | Evans
+ Morris    | McHone
+ Paul      | Seymour
+ Paul      | Westhead
+ Red       | Holzman
+ Rex       | Hughes
+ Richie    | Guerin
+ Rick      | Carlisle
+ Slater    | Martin
+ Stan      | Albeck
+(42 rows)
+
+*******************************end/
+
+/*9.Find the tallest player (first name and last name) of each team in year 2000. Print out the team, firstname, last name and the height (in centimeters) of the player. Sort the result by the team name. */
+
+SELECT player_rs.tid, players.firstname, players.lastname, players.h_feet * 30.48 +players.h_inches * 2.54 as height
+FROM players, player_rs
+WHERE player_rs.year = 2000 AND players.ilkid = player_rs.ilkid
+GROUP BY (players.h_feet * 30.48 + players.h_inches * 2.54), player_rs.tid, players.firstname, players.lastname
+HAVING (players.h_feet * 30.48 + players.h_inches * 2.54) >= ALL 
+(SELECT(players1.h_feet * 30.48+ players1.h_inches * 2.54)
+FROM players players1, player_rs player_rs1
+WHERE player_rs1.year = 2000 AND players1.ilkid = player_rs1.ilkid AND player_rs.tid = player_rs1.tid
+GROUP BY player_rs1.tid, (players1.h_feet * 30.48 + players1.h_inches * 2.54))
+ORDER BY player_rs.tid;
+
+/************************output
+ tid | firstname |  lastname  | height 
+-----+-----------+------------+--------
+ ATL | Dikembe   | Mutombo    | 218.44
+ BOS | Mark      | Blount     | 213.36
+ CHA | Elden     | Campbell   | 210.82
+ CHA | Jamaal    | Magloire   | 210.82
+ CHA | P.j.      | Brown      | 210.82
+ CHI | Dalibor   | Bagaric    |  215.9
+ CLE | Zydrunas  | Ilgauskas  | 220.98
+ DAL | Shawn     | Bradley    | 226.06
+ DEN | Garth     | Joseph     | 218.44
+ DET | Eric      | Montross   | 213.36
+ GSW | John      | Coker      | 213.36
+ HOU | Jason     | Collier    | 213.36
+ IND | Bruno     | Sundov     | 218.44
+ LAC | Michael   | Olowokandi | 213.36
+ LAL | Shaquille | O'neal     |  215.9
+ MIA | Duane     | Causwell   | 213.36
+ MIL | Joel      | Przybilla  |  215.9
+ MIN | Radoslav  | Nesterovic | 213.36
+ NJN | Jim       | Mcilvaine  |  215.9
+ NYK | Luc       | Longley    | 218.44
+ ORL | Michael   | Doleac     | 210.82
+ PHI | Dikembe   | Mutombo    | 218.44
+ PHO | Jake      | Tsakalidis | 218.44
+ POR | Arvydas   | Sabonis    | 220.98
+ SAC | Jabari    | Smith      | 210.82
+ SAC | Scot      | Pollard    | 210.82
+ SAC | Vlade     | Divac      | 210.82
+ SAS | David     | Robinson   |  215.9
+ SEA | Patrick   | Ewing      | 213.36
+ TOR | Garth     | Joseph     | 218.44
+ TOT | Dikembe   | Mutombo    | 218.44
+ TOT | Garth     | Joseph     | 218.44
+ UTA | Greg      | Ostertag   | 218.44
+ VAN | Bryant    | Reeves     | 213.36
+ WAS | Calvin    | Booth      | 210.82
+ WAS | Cherokee  | Parks      | 210.82
+ WAS | Christian | Laettner   | 210.82
+(37 rows)
+*******************************end/
+
+/*10.List the top 3 players who scored the most points in history. List their last and first names and the points they scored (hint: use"order by" to sort the results and 'limit xxx' to limit the number of rows returned); */
+
+SELECT player_rs_career.lastname, player_rs_career.firstname,pts
+FROM player_rs_career
+ORDER BY Pts DESC LIMIT 3;
+
+/**************output
+   lastname   | firstname |  pts  
+--------------+-----------+-------
+ Abdul-jabbar | Kareem    | 38387
+ Malone       | Karl      | 36928
+ Jordan       | Michael   | 32292
+(3 rows)
+**************************end/
+
+/*11.Calculate the variance of the weights of all players; */
+
+/*12.Print the first and last names of those who either scored more than 12000 points in their careers or played for more than 12 seasons. */
