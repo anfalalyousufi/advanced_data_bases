@@ -1,0 +1,161 @@
+Name: Anfal AlYousufi
+Course name: Advanced databases/f19
+Assignment:1
+
+
+
+Description of the environment:
+1)installing PostSQL version 10.5
+	a) Linux OS Ubuntu (64-bit) version 18.04.3-desktop-amd64.iso [terminal]
+		i)GNU Make as the compiler to install POSTGreSQL
+	b) Operating System: Linux OS Ubunto
+	c) Compiler & version: GNU 4.1
+
+2) PostgreSQL source file was downloaded from the link http://www.postgresql.org/ftp/source/v10.5/ (Links to an external site.) and installation steps were from http://www.postgresql.org/docs/10/static/index.html (Links to an external site.) both links were provided by the instructure.
+
+3) Source fle: unzipped & extracted manually because gunzip postgresql-10.5.tar.gz caused issues.
+
+4)Installing gcc using the command sudp apt install gcc 
+
+5) Configured
+
+postgres=# CREATE DATABASE anfal1;
+CREATE DATABASE
+postgres=# \c anfal1
+You are now connected to database "anfal1" as user "postgres".
+anfal1=# CREATE TABLE school(
+anfal1(# Name varchar(80),
+anfal1(# Science int,
+anfal1(# Math int,
+anfal1(# French int,
+anfal1(# PE int);
+CREATE TABLE
+anfal1=# CREATE TABLE organization VALUES(
+anfal1(# USF varchat(80),
+anfal1(# student int,
+anfal1(# faculty int,
+anfal1(# guests int);
+ERROR:  syntax error at or near "VALUES"
+LINE 1: CREATE TABLE organization VALUES(
+                                  ^
+anfal1=# CREATE TABLE organization(
+USF varchat(80),
+student int,
+faculty int,
+guests int);
+ERROR:  type "varchat" does not exist
+LINE 2: USF varchat(80),
+            ^
+anfal1=# CREATE TABLE organization(
+anfal1(# USF varchar(80),
+anfal1(# student int,
+anfal1(# faculty int,
+anfal1(# guests int);
+CREATE TABLE
+anfal1=# INSERT INTO school VALUES(
+anfal1(# 'Alex',
+anfal1(# 80,
+anfal1(# 95,
+anfal1(# 82,
+anfal1(# 75);
+INSERT 0 1
+anfal1=# INSERT INTO school VALUES(
+anfal1(# 'Sarah',
+anfal1(# 78,
+anfal1(# 91,
+anfal1(# 80,
+anfal1(# 92);
+INSERT 0 1
+anfal1=# INSERT INTO organization VALUES(
+anfal1(# 'sport',
+anfal1(# 850,
+anfal1(# 210,
+anfal1(# 85);
+INSERT 0 1
+anfal1=# INSERT INTO organization VALUES(
+anfal1(# 'health'
+anfal1(# 720,
+anfal1(# 600,
+anfal1(# 120);
+ERROR:  syntax error at or near "720"
+LINE 3: 720,
+        ^
+anfal1=# INSERT INTO organization VALUES(
+anfal1(# 'health',
+anfal1(# 720,
+anfal1(# 600,
+anfal1(# 120);
+INSERT 0 1
+anfal1=# INSERT INTO organization VALUES(
+anfal1(# 'volunteering',
+anfal1(# 860,
+anfal1(# 300,
+anfal1(# 600);
+INSERT 0 1
+anfal1=# INSERT INTO organization VALUES(
+anfal1(# 'engineering',
+anfal1(# 500,
+anfal1(# 480,
+anfal1(# 100);
+INSERT 0 1
+anfal1=# SELECT * FROM school;
+ name  | science | math | french | pe 
+-------+---------+------+--------+----
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+(2 rows)
+
+anfal1=# ^C
+anfal1=# SELECT * FROM organization;
+     usf      | student | faculty | guests 
+--------------+---------+---------+--------
+ sport        |     850 |     210 |     85
+ health       |     720 |     600 |    120
+ volunteering |     860 |     300 |    600
+ engineering  |     500 |     480 |    100
+(4 rows)
+
+anfal1=# SELECT * FROM school
+anfal1-# ORDER BY pe;
+ name  | science | math | french | pe 
+-------+---------+------+--------+----
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+(2 rows)
+
+anfal1=# SELECT * FROM school
+anfal1-# ORDER BY name;
+ name  | science | math | french | pe 
+-------+---------+------+--------+----
+ Alex  |      80 |   95 |     82 | 75
+ Sarah |      78 |   91 |     80 | 92
+(2 rows)
+
+anfal1=# SELE
+CT usf, (student+faculty+guests) AS total FROM organization;
+     usf      | total 
+--------------+-------
+ sport        |  1145
+ health       |  1440
+ volunteering |  1760
+ engineering  |  1080
+(4 rows)
+
+anfal1=# SELECT *FROM organization ORDER BY USF;
+     usf      | student | faculty | guests 
+--------------+---------+---------+--------
+ engineering  |     500 |     480 |    100
+ health       |     720 |     600 |    120
+ sport        |     850 |     210 |     85
+ volunteering |     860 |     300 |    600
+(4 rows)
+
+anfal1=# SELECT DISTINCT USF FROM organization;
+     usf      
+--------------
+ volunteering
+ health
+ sport
+ engineering
+(4 rows)
+
