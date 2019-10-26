@@ -298,9 +298,10 @@ StrategyGetBuffer(BufferAccessStrategy strategy, uint32 *buf_state)
 				if (strategy != NULL)
 					AddBufferToRing(strategy, buf);
 				*buf_state = local_buf_state;
-				return buf;
+				//return buf;
 				//output some message with respect to buffer changes
 				elog(LOG, "Get buf %d\n", buf->buf_id); //(anfal)
+				return buf;
 			}
 			UnlockBufHdr(buf, local_buf_state);
 
