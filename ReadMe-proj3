@@ -1,4 +1,10 @@
-In the .zip folder, I included all that files were changes took place. Every line that have been changed was commented as the following:
+Advanced Databases
+project:3 
+Name: Anfal AlYousuf
+U: U72884742
+26th/Oct/2019
+
+In the .zip folder, I included all that files were changes took place by implementing Least recently Used algorithm instead of clock algorithm in postgresql. Every line that have been changed was commented as the following:
 //(anfal)
 
 Files modified:
@@ -13,3 +19,41 @@ in LRU, we make use of a single refcount whose value when zero would be consider
 For the purpose of elog() functions they were added like how it was supposed to be added. Then a previous poiner is implemented, and after being able to get the node from the head of the list. There was some code edited to that the buffer would always get the tail of the list in LRU.
 
 StrategyGetBugger and StrategyFreeBuffer were presented in the code that helped make sure that appropriate page is released for replacement and also once a page is being released it would direclty be added to the tail of the buffer. Two functions were added to check if the buffer is present in the freelist to the freelist.c file. 
+
+In freelist.c
+We had two main function to change in and they are StrategyGetBuffer() and StrategyFreeBuffer().
+For: 
+StrategyGetBuffer:
+	1) getting buffer from the ring if available
+	2)getting buffer from head of the freelist that is pointed by firstFreeBuffer and would check if it is referencount =0 as it might have been accesed before (reference count is the pincount)
+	3)No buffer in freelist, hence, going through all the buffers is needed to check if any have a refrenece count = 0 to unpin it and return the buffer
+	4) finally, return the elog that is when all buffers are being pinned.
+
+StrategyFreeBuffer:
+The clock that was implemented before used last in first out method, that is buffer would be added to the head and the removed from the head (stack). But in LRU, we needed to implement FIFO method (queue). Hence, free buffer had to be added at the tail and the buffer would be removed from the head in StrategyGetBuffer.
+-usagecount is not used in LRU
+
+In bufmgr.c
+The main function that is changed is UnpinBuffer()
+
+Rerenece count that is also known as pin count is reduced by 1 when a process don't need to access the buffer, and when it is equal to zero, then the buffer no longer is used by any process and should be returned to the freelist. Therefore, StrategyFreeBuffer() when buf->refcount=0
+I used loop to check if all the buffers are in order from first->last.
+
+
+
+
+output example:
+2019-10-26 18:12:54.127 EDT [4099] LOG:  Add buf 48
+	
+2019-10-26 18:12:54.127 EDT [4099] LOG:  Add buf 56
+	
+2019-10-26 18:12:54.127 EDT [4099] LOG:  Add buf 53
+	
+2019-10-26 18:12:54.127 EDT [4099] LOG:  Add buf 51
+	
+2019-10-26 18:12:54.127 EDT [4099] LOG:  Add buf 54
+	
+2019-10-26 18:12:54.128 EDT [4099] LOG:  Get buf 58
+	
+2019-10-26 18:12:54.178 EDT [4099] LOG:  Add buf 58
+
