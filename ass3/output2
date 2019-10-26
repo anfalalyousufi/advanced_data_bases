@@ -1,0 +1,64 @@
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-25 19:41:45.166 EDT [3162] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-10-25 19:41:46.447 EDT [3162] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-10-25 19:41:48.752 EDT [3164] LOG:  database system was interrupted; last known up at 2019-10-25 17:19:43 EDT
+2019-10-25 19:46:04.832 EDT [3164] LOG:  database system was not properly shut down; automatic recovery in progress
+2019-10-25 19:46:07.084 EDT [3164] LOG:  redo starts at 0/15C5770
+2019-10-25 19:46:07.084 EDT [3164] LOG:  invalid record length at 0/15C57A8: wanted 24, got 0
+2019-10-25 19:46:07.084 EDT [3164] LOG:  redo done at 0/15C5770
+2019-10-25 19:46:17.919 EDT [3162] LOG:  database system is ready to accept connections
+2019-10-25 19:46:18.694 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:46:18.704 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:47:18.752 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:48:18.794 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:49:18.816 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:50:18.878 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:51:18.913 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:52:18.966 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:53:19.007 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:54:19.063 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:55:19.109 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:56:19.170 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:57:19.200 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:58:19.271 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 19:59:19.295 EDT [3229] LOG:  Add buf 0
+	
+2019-10-25 20:00:19.360 EDT [3229] LOG:  Add buf 0
+
+
+
+
+
+
+
+
+
+-----------------------
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[1] 2398
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-26 01:15:34.685 EDT [2398] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-10-26 01:15:34.691 EDT [2398] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-10-26 01:15:35.276 EDT [2399] LOG:  database system was shut down at 2019-10-25 23:34:27 EDT
+2019-10-26 01:15:35.508 EDT [2398] LOG:  database system is ready to accept connections
+2019-10-26 01:15:35.557 EDT [2403] LOG:  Get buf 0
+	
+2019-10-26 01:15:35.571 EDT [2403] LOG:  Add buf 0
+	
+2019-10-26 01:15:35.611 EDT [2403] LOG:  Add buf 0
+
+

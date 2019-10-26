@@ -1,0 +1,21 @@
+anfal@anfal-VirtualBox:~/Downloads/postgresql-10.5$ sudo su
+root@anfal-VirtualBox:/home/anfal/Downloads/postgresql-10.5# su - postgres
+postgres@anfal-VirtualBox:~$ \c anfal1
+c: command not found
+postgres@anfal-VirtualBox:~$ psql
+psql (10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \l
+postgres=# 
+postgres=# \c anfal1 anfal1
+FATAL:  Peer authentication failed for user "anfal1"
+Previous connection kept
+postgres=# \c postgres postgres
+You are now connected to database "postgres" as user "postgres".
+postgres=# \c anfal1 anfal1
+FATAL:  Peer authentication failed for user "anfal1"
+Previous connection kept
+postgres=# \q
+postgres@anfal-VirtualBox:~$ 
+

@@ -1,0 +1,25 @@
+anfal@anfal-VirtualBox:~$ cd D
+Desktop/   Documents/ Downloads/ 
+anfal@anfal-VirtualBox:~$ sudo su
+root@anfal-VirtualBox:/home/anfal# su - postgres
+postgres@anfal-VirtualBox:~$ /usr/local/pgsql/bin/postgres -B 100 -D /usr/local/pgsql/data >logfile 2>&1 &
+[1] 4216
+postgres@anfal-VirtualBox:~$ cat logfile
+2019-10-25 15:19:56.191 EDT [4216] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-10-25 15:19:56.200 EDT [4216] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-10-25 15:19:56.803 EDT [4217] LOG:  database system was interrupted; last known up at 2019-10-25 02:48:55 EDT
+2019-10-25 15:19:59.749 EDT [4217] LOG:  database system was not properly shut down; automatic recovery in progress
+2019-10-25 15:19:59.754 EDT [4217] LOG:  redo starts at 0/15C5620
+2019-10-25 15:19:59.754 EDT [4217] LOG:  invalid record length at 0/15C5658: wanted 24, got 0
+2019-10-25 15:19:59.754 EDT [4217] LOG:  redo done at 0/15C5620
+2019-10-25 15:20:00.006 EDT [4216] LOG:  database system is ready to accept connections
+2019-10-25 15:20:00.243 EDT [4221] LOG:  Add buf 0
+	
+2019-10-25 15:20:00.254 EDT [4221] LOG:  Add buf 0
+	
+postgres@anfal-VirtualBox:~$ psql
+psql: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+postgres@anfal-VirtualBox:~$ 
+
