@@ -1,0 +1,15 @@
+In the .zip folder, I included all that files were changes took place. Every line that have been changed was commented as the following:
+//(anfal)
+
+Files modified:
+freelist.c
+bufmrg.c
+buf_init.c
+buf_internals.c
+
+The difference between clockswwp algorith that was given to that of LRU is when LRU we don't use usage_count, but all the code were kept as it is nothing was modified.
+in LRU, we make use of a single refcount whose value when zero would be considered to be available for replacement. In here, the buffer pointed by the least recently used which is present at the head of the list and then would be returned to the requesting thread. In chance, the freelist is empty and has nothing, a message will be logged and when it is available it will be logged and returned to the requesting thread. 
+
+For the purpose of elog() functions they were added like how it was supposed to be added. Then a previous poiner is implemented, and after being able to get the node from the head of the list. There was some code edited to that the buffer would always get the tail of the list in LRU.
+
+StrategyGetBugger and StrategyFreeBuffer were presented in the code that helped make sure that appropriate page is released for replacement and also once a page is being released it would direclty be added to the tail of the buffer. Two functions were added to check if the buffer is present in the freelist to the freelist.c file. 
